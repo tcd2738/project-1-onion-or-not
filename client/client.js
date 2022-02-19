@@ -1,6 +1,8 @@
+// Handle responses on the front end.
 const handleResponse = async (response, parseResponse) => {
     const content = document.querySelector('#content');
     
+    // Pick HTML message to display based on response status
     switch (response.status) {
         case 200:
             content.innerHTML = `<b>Success</b>`;
@@ -35,7 +37,6 @@ const handleResponse = async (response, parseResponse) => {
         content.innerHTML += `<p>${JSON.stringify(obj)}</p>`;
         }
 
-        // Print the object per the assignment's requirements.
         console.log(obj);
     }
 };
@@ -53,13 +54,12 @@ const requestUpdate = async (getForm) => {
         }
     });
 
-    // Handled returned response and display on the front end.
+    // Handle returned response and display on the front end.
     handleResponse(response, method !== 'head');
 };
 
-// Called when front-end UI makes a POST request.
+// Called when front-end UI makes a user-related POST request.
 const userPost = async (nameForm) => {
-
     //Grab the request info.
     const url = nameForm.querySelector('#userPostUrlField').value;
     const method = nameForm.getAttribute('method');
@@ -83,9 +83,8 @@ const userPost = async (nameForm) => {
     handleResponse(response, method !== 'head');
 };
 
-// Called when front-end UI makes a POST request.
+// Called when front-end UI makes a guess-related POST request.
 const guessPost = async (guessForm) => {
-
     //Grab the request info.
     const url = guessForm.getAttribute('action');
     const method = guessForm.getAttribute('method');
@@ -110,6 +109,7 @@ const guessPost = async (guessForm) => {
     handleResponse(response, method !== 'head');
 };
 
+// Called when front-end UI makes a game-related PUT request.
 const sendPut = async (pointsStreaksButton) => {
     //Grab the request info.
     const url = pointsStreaksButton.getAttribute('action');
@@ -148,11 +148,13 @@ const init = () => {
         guessPost(guessForm);
         return false;
     }
+    // No redirect as this is a button.
     const psEvent = (e) => {
         sendPut(pointsStreaks);
         return false;
     }
     
+    // Attach functions to related document elements.
     getForm.addEventListener('submit', getUsers);
     nameForm.addEventListener('submit', addUsers);
     guessForm.addEventListener('submit', addGuess);

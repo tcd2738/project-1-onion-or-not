@@ -1,12 +1,13 @@
+// Grab helper functions.
 const articleFunctions = require('../helperFunctions/articleFunctions.js');
 const helperFunctions = require('../helperFunctions/helperFunctions.js');
 
-// Note: These objects are stored in memory.
+// Objects stored in local memory for project #1.
 const articles = articleFunctions.createGameArticles();
 const gameData = require('../gameData.json');
 
+// Functions to grab and respond with game data.
 const getGameData = (req, res) => helperFunctions.respondJSON(req, res, 200, gameData);
-
 const getGameDataMeta = (req, res) => helperFunctions.respondJSONMeta(req, res, 200);
 
 // Function to add a user from a POST body.
@@ -38,6 +39,7 @@ const addUser = (request, response, body) => {
   return helperFunctions.respondJSON(request, response, 201, responseJSON);
 };
 
+// Function to remove a user from a POST body.
 const removeUser = (request, response, body) => {
   // Create JSON response that will be edited later.
   const responseJSON = {};
@@ -63,6 +65,7 @@ const removeUser = (request, response, body) => {
   return helperFunctions.respondJSON(request, response, 202, responseJSON);
 };
 
+// Function to add a user's guess from a POST body.
 const addGuess = (request, response, body) => {
   // Create JSON response that will be edited later.
   const responseJSON = {};
@@ -88,14 +91,17 @@ const addGuess = (request, response, body) => {
     return helperFunctions.respondJSON(request, response, 400, responseJSON);
   }
 
+  // Add the guess and return a 201.
   gameData.users[body.name].guess = body.isOnion;
 
   responseJSON.message = 'Response Added';
   return helperFunctions.respondJSON(request, response, 201, responseJSON);
 };
 
+// Function to update game data with a PUT request.
 const updatePointsStreaks = (request, response) => {
   Object.keys(gameData.users).forEach((u) => {
+    // If the user's guess is correct, do this.
     if (gameData.users[u].guess === gameData.currentArticle.isOnion) {
       gameData.users[u].streak++;
       gameData.users[u].points += gameData.users[u].streak;
@@ -106,27 +112,37 @@ const updatePointsStreaks = (request, response) => {
     }
   });
 
+  // Always iterate round number.
   gameData.roundNum++;
 
+  // Return 204 as no data needs returned.
   return helperFunctions.respondJSON(request, response, 204);
 };
 
+// Get the next article from our article collection and send it as JSON.
 const getNextArticle = (request, response) => {
+  // Randomly select article.
   const currentArticleNum = helperFunctions.getRandomNum(articles.length);
 
+  // Keep randomly-selected article to send as JSON.
   const currentArticle = articles[currentArticleNum];
   gameData.currentArticle = currentArticle;
   articles.splice(currentArticleNum, 1);
 
+  // Send article with 200.
   return helperFunctions.respondJSON(request, response, 200, currentArticle);
 };
 
+// Get the next article from our article collection.
 const getNextArticleMeta = (request, response) => {
+  // Randomly select article.
   const currentArticleNum = helperFunctions.getRandomNum(articles.length);
 
+  // Apply randomly-selected article to game data object but don't send as JSON.
   gameData.currentArticle = articles[currentArticleNum];
   articles.splice(currentArticleNum, 1);
 
+  // Return a 200.
   return helperFunctions.respondJSONMeta(request, response, 200);
 };
 

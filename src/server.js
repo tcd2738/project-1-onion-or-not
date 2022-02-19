@@ -1,6 +1,9 @@
+// Required modules.
 const http = require('http');
 const url = require('url');
 const query = require('querystring');
+
+// Required reponse handlers.
 const htmlHandler = require('./responses/htmlResponses.js');
 const jsonHandler = require('./responses/jsonResponses.js');
 const gameHandler = require('./responses/gameResponses.js');
@@ -23,7 +26,6 @@ const urlStruct = {
     '/getGameData': gameHandler.getGameDataMeta,
     '/getNextArticle': gameHandler.getNextArticleMeta,
   },
-
   // POST requests not included in URL struct due to different process
 };
 
@@ -55,10 +57,8 @@ const parseBody = (request, response, handler) => {
   });
 };
 
-// Handles POST requests.
+// Handles and directs POST requests.
 const handlePost = (request, response, parsedUrl) => {
-  // We don't really need to check the pathname since we only have one POST path,
-  // but it's good infrastructure to build.
   if (parsedUrl.pathname === '/addUser') {
     parseBody(request, response, gameHandler.addUser);
   } else if (parsedUrl.pathname === '/removeUser') {

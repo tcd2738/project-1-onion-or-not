@@ -8,6 +8,7 @@
 <body>
   <section id="top">
     <h3>Onion or Not</h3>
+
     <form id="nameForm" action="/addUser" method="post">
       <select id='userPostUrlField'>
         <option value='/addUser'>/addUser</option>
@@ -17,6 +18,7 @@
       <input id="nameField" type="text" name="name" />
       <input type="submit" value="Post User Methods" />
     </form>
+
     <form id="guessForm" action="/addGuess" method="post">
       <label for="name">Name: </label>
       <input id="nameField" type="text" name="name" />
@@ -24,19 +26,23 @@
       <input id="guessField" type="text" name="guess" />
       <input type="submit" value="Post Guess Method" />
     </form>
+
     <form id="getForm" action="/getGameData" method="get">
       <select id='getUrlField'>
         <option value='/getGameData'>/getGameData</option>
         <option value='/getNextArticle'>/getNextArticle</option>
         <option value='/notReal'>/notReal</option>
       </select>
+
       <select id="methodSelect">
         <option value="get">GET</option>
         <option value="head">HEAD</option>
       </select>
       <input type="submit" value="Get Methods" />
     </form>
+
     <button id="pointsStreaksUpdater" action="/updatePointsStreaks" method="put" type="button">Update Points and Streaks</button>
+    
   </section>
   <section id="content">
   </section>
