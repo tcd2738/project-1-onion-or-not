@@ -3,11 +3,7 @@ const helperFunctions = require('../helperFunctions/helperFunctions.js');
 
 // Note: These objects are stored in memory.
 const articles = articleFunctions.createGameArticles();
-const gameData = {
-  users: {},
-  currentArticle: {},
-  roundNum: 0,
-};
+const gameData = require('../gameData.json');
 
 const getGameData = (req, res) => helperFunctions.respondJSON(req, res, 200, gameData);
 
