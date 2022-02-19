@@ -3,7 +3,7 @@ const got = require('got');
 const articles = [];
 
 // Interfaces with selected subreddit and pull headlines from it for storage in articles.
-generateArticles = async (url, isOnion) => {
+const generateArticles = async (url, isOnion) => {
   // Get articles from got.
   const foundArticles = await got(url, {
     method: 'GET',
@@ -20,7 +20,7 @@ generateArticles = async (url, isOnion) => {
       isOnion,
     });
   });
-}
+};
 
 // Creates all game articles.
 const createGameArticles = () => {
