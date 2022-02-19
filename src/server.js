@@ -3,6 +3,7 @@ const url = require('url');
 const query = require('querystring');
 const htmlHandler = require('./htmlResponses.js');
 const jsonHandler = require('./jsonResponses.js');
+const gameHandler = require('./gameResponses.js');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
@@ -10,13 +11,13 @@ const urlStruct = {
   GET: {
     '/': htmlHandler.getIndex,
     '/style.css': htmlHandler.getCSS,
-    '/getUsers': jsonHandler.getUsers,
-    '/notReal': jsonHandler.notFound,
+    '/bundle.js': htmlHandler.getBundle,
+    '/getGameData': gameHandler.getGameData,
+    '/getNextArticle': jsonHandler.getNextArticle,
     notFound: jsonHandler.notFound,
   },
   HEAD: {
-    '/getUsers': jsonHandler.getUsersMeta,
-    '/notReal': jsonHandler.notFoundMeta,
+    '/getGameData': gameHandler.getGameDataMeta,
   },
   // POST requests not included in URL struct due to different process
 };
@@ -54,8 +55,8 @@ const handlePost = (request, response, parsedUrl) => {
   // We don't really need to check the pathname since we only have one POST path,
   // but it's good infrastructure to build.
   if (parsedUrl.pathname === '/addUser') {
-    parseBody(request, response, jsonHandler.addUser);
-  }
+    parseBody(request, response, gameHandler.addUser);
+  } 
 };
 
 // Handles any requests coming into the server and directs them to the correct place.
