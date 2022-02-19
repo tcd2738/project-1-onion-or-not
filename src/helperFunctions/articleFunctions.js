@@ -1,18 +1,20 @@
 const got = require('got');
-const Parser = require('rss-parser');
-
-const parser = new Parser();
 
 const articles = [];
 
 // Loads The Onion's RSS feed and pulls headlines from it for storage in articles.
 const generateOnionArticles = async () => {
-  const onionArticles = await parser.parseURL('https://www.theonion.com/rss');
+  const onionArticles = await got('https://www.reddit.com/r/TheOnion/.json?limit=25', {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+    },
+  });
 
-  const onionArticleList = onionArticles.items;
+  const onionArticleList = JSON.parse(onionArticles.body).data.children;
   onionArticleList.forEach((a) => {
     articles.push({
-      title: a.title,
+      title: a.data.title,
       isOnion: 'y',
     });
   });
