@@ -7,25 +7,36 @@
 </head>
 <body>
   <section id="top">
-    <h3>POST Status Code Tests</h3>
+    <h3>Onion or Not</h3>
     <form id="nameForm" action="/addUser" method="post">
+      <select id='userPostUrlField'>
+        <option value='/addUser'>/addUser</option>
+        <option value='/removeUser'>/removeUser</option>
+      </select>
       <label for="name">Name: </label>
       <input id="nameField" type="text" name="name" />
-      <label for="age">Age: </label>
-      <input id="ageField" type="number" name="age" min="0" max="100" step="1"/>
-      <input type="submit" value="Add User" />
+      <input type="submit" value="Post User Methods" />
     </form>
-    <form id="userForm" action="/getUsers" method="get">
-      <select id='urlField'>
-        <option value='/getUsers'>/getUsers</option>
+    <form id="guessForm" action="/addGuess" method="post">
+      <label for="name">Name: </label>
+      <input id="nameField" type="text" name="name" />
+      <label for="guess">Is it The Onion? ('y' or 'n'): </label>
+      <input id="guessField" type="text" name="guess" />
+      <input type="submit" value="Post Guess Method" />
+    </form>
+    <form id="getForm" action="/getGameData" method="get">
+      <select id='getUrlField'>
+        <option value='/getGameData'>/getGameData</option>
+        <option value='/getNextArticle'>/getNextArticle</option>
         <option value='/notReal'>/notReal</option>
       </select>
       <select id="methodSelect">
         <option value="get">GET</option>
         <option value="head">HEAD</option>
       </select>
-      <input type="submit" value="Get User" />
+      <input type="submit" value="Get Methods" />
     </form>
+    <button id="pointsStreaksUpdater" action="/updatePointsStreaks" method="put" type="button">Update Points and Streaks</button>
   </section>
   <section id="content">
   </section>

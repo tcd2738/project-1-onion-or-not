@@ -41,10 +41,10 @@ const handleResponse = async (response, parseResponse) => {
 };
 
 // Called when front-end UI makes a GET or HEAD request.
-const requestUpdate = async (userForm) => {
+const requestUpdate = async (getForm) => {
     //Grab the request info.
-    const url = userForm.querySelector('#urlField').value;
-    const method = userForm.querySelector('#methodSelect').value;
+    const url = getForm.querySelector('#getUrlField').value;
+    const method = getForm.querySelector('#methodSelect').value;
 
     let response = await fetch(url, {
         method,
@@ -58,18 +58,16 @@ const requestUpdate = async (userForm) => {
 };
 
 // Called when front-end UI makes a POST request.
-const sendPost = async (nameForm) => {
+const userPost = async (nameForm) => {
 
     //Grab the request info.
-    const url = nameForm.getAttribute('action');
+    const url = nameForm.querySelector('#userPostUrlField').value;
     const method = nameForm.getAttribute('method');
     
     // Grab the form info.
     const nameField = nameForm.querySelector('#nameField');
-    const ageField = nameForm.querySelector('#ageField');
-
     // Build your data string.
-    const formData = `name=${nameField.value}&age=${ageField.value}`;
+    const formData = `name=${nameField.value}`;
 
     // Make and wait for your fetch response.
     let response = await fetch(url, {
@@ -85,24 +83,80 @@ const sendPost = async (nameForm) => {
     handleResponse(response, method !== 'head');
 };
 
+// Called when front-end UI makes a POST request.
+const guessPost = async (guessForm) => {
+
+    //Grab the request info.
+    const url = guessForm.getAttribute('action');
+    const method = guessForm.getAttribute('method');
+    
+    // Grab the form info.
+    const nameField = guessForm.querySelector('#nameField');
+    const guessField = guessForm.querySelector('#guessField');
+    // Build your data string.
+    const formData = `name=${nameField.value}&isOnion=${guessField.value}`;
+
+    // Make and wait for your fetch response.
+    let response = await fetch(url, {
+        method,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json',
+        },
+        body: formData,
+    });
+
+    // Handled returned response and display on the front end.
+    handleResponse(response, method !== 'head');
+};
+
+const sendPut = async (pointsStreaksButton) => {
+    //Grab the request info.
+    const url = pointsStreaksButton.getAttribute('action');
+    const method = pointsStreaksButton.getAttribute('method');
+
+    let response = await fetch(url, {
+        method,
+        headers: {
+            'Accept': 'application/json'
+        }
+    });
+
+    // Handled returned response and display on the front end.
+    handleResponse(response, false);
+}
+
 const init = () => {
-    const userForm = document.querySelector('#userForm');
+    const getForm = document.querySelector('#getForm');
     const nameForm = document.querySelector('#nameForm');
+    const guessForm = document.querySelector('#guessForm');
+    const pointsStreaks = document.querySelector('#pointsStreaksUpdater');
     
     // Tell the forms to do their needed actions without redirecting.
     const getUsers = (e) => {
         e.preventDefault();
-        requestUpdate(userForm);
+        requestUpdate(getForm);
         return false;
     }
     const addUsers = (e) => {
         e.preventDefault();
-        sendPost(nameForm);
+        userPost(nameForm);
+        return false;
+    }
+    const addGuess = (e) => {
+        e.preventDefault();
+        guessPost(guessForm);
+        return false;
+    }
+    const psEvent = (e) => {
+        sendPut(pointsStreaks);
         return false;
     }
     
-    userForm.addEventListener('submit', getUsers);
+    getForm.addEventListener('submit', getUsers);
     nameForm.addEventListener('submit', addUsers);
+    guessForm.addEventListener('submit', addGuess);
+    pointsStreaks.addEventListener('click', psEvent);
 };
 
 window.onload = init;
