@@ -1,0 +1,267 @@
+{
+	"info": {
+		"_postman_id": "a58df398-7794-42dd-ac11-e3491200d54d",
+		"name": "Onion or Not",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Requests",
+			"item": [
+				{
+					"name": "Index",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000",
+							"host": [
+								"localhost"
+							],
+							"port": "3000"
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Style",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/style.css",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"style.css"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bundle",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/bundle.js",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"bundle.js"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Next Article",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/getNextArticle",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"getNextArticle"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Game Data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/getGameData",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"getGameData"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Head Requests",
+			"item": [
+				{
+					"name": "Get Game Data (HEAD)",
+					"request": {
+						"method": "HEAD",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/getGameData",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"getGameData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Next Article (HEAD)",
+					"request": {
+						"method": "HEAD",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/getNextArticle",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"getNextArticle"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post Requests",
+			"item": [
+				{
+					"name": "Add User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Tommy",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/addUser",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"addUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Tommy",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/removeUser",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"removeUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Guess",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Tommy",
+									"type": "text"
+								},
+								{
+									"key": "isOnion",
+									"value": "y",
+									"description": "valid",
+									"type": "text"
+								},
+								{
+									"key": "isOnion",
+									"value": "true",
+									"description": "not valid",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/addGuess",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"addGuess"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Put Requests",
+			"item": [
+				{
+					"name": "Update Points Streaks",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/updatePointsStreaks",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"updatePointsStreaks"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

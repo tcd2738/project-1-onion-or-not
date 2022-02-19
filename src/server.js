@@ -17,7 +17,7 @@ const urlStruct = {
     notFound: jsonHandler.notFound,
   },
   PUT: {
-    '/updatePointsStreaks': gameHandler.updatePointsStreaks
+    '/updatePointsStreaks': gameHandler.updatePointsStreaks,
   },
   HEAD: {
     '/getGameData': gameHandler.getGameDataMeta,

@@ -1,5 +1,6 @@
 const got = require('got');
 const Parser = require('rss-parser');
+
 const parser = new Parser();
 
 const articles = [];

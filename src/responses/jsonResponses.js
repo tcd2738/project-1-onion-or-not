@@ -13,5 +13,5 @@ const notFoundMeta = (request, response) => helperFunctions.respondJSONMeta(requ
 
 module.exports = {
   notFound,
-  notFoundMeta
+  notFoundMeta,
 };
