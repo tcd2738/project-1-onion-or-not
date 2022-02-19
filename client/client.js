@@ -8,6 +8,8 @@ const handleResponse = async (response, parseResponse) => {
         case 201:
             content.innerHTML = `<b>Created</b>`;
             break;
+        case 202:
+            content.innerHTML = `<b>Accepted</b>`
         case 204:
             content.innerHTML = `<b>Updated (No Content)</b>`;
             return;

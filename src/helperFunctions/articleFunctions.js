@@ -1,6 +1,5 @@
 const got = require('got');
 const Parser = require('rss-parser');
-
 const parser = new Parser();
 
 const articles = [];
@@ -13,7 +12,7 @@ const generateOnionArticles = async () => {
   onionArticleList.forEach((a) => {
     articles.push({
       title: a.title,
-      isOnion: true,
+      isOnion: 'y',
     });
   });
 };
@@ -31,7 +30,7 @@ const generateNotOnionArticles = async () => {
   notOnionArticleList.forEach((a) => {
     articles.push({
       title: a.data.title,
-      isOnion: false,
+      isOnion: 'n',
     });
   });
 };

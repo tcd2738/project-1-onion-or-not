@@ -1,9 +1,9 @@
 const http = require('http');
 const url = require('url');
 const query = require('querystring');
-const htmlHandler = require('./htmlResponses.js');
-const jsonHandler = require('./jsonResponses.js');
-const gameHandler = require('./gameResponses.js');
+const htmlHandler = require('./responses/htmlResponses.js');
+const jsonHandler = require('./responses/jsonResponses.js');
+const gameHandler = require('./responses/gameResponses.js');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
@@ -13,12 +13,17 @@ const urlStruct = {
     '/style.css': htmlHandler.getCSS,
     '/bundle.js': htmlHandler.getBundle,
     '/getGameData': gameHandler.getGameData,
-    '/getNextArticle': jsonHandler.getNextArticle,
+    '/getNextArticle': gameHandler.getNextArticle,
     notFound: jsonHandler.notFound,
+  },
+  PUT: {
+    '/updatePointsStreaks': gameHandler.updatePointsStreaks
   },
   HEAD: {
     '/getGameData': gameHandler.getGameDataMeta,
+    '/getNextArticle': gameHandler.getNextArticleMeta,
   },
+
   // POST requests not included in URL struct due to different process
 };
 
@@ -56,7 +61,11 @@ const handlePost = (request, response, parsedUrl) => {
   // but it's good infrastructure to build.
   if (parsedUrl.pathname === '/addUser') {
     parseBody(request, response, gameHandler.addUser);
-  } 
+  } else if (parsedUrl.pathname === '/removeUser') {
+    parseBody(request, response, gameHandler.removeUser);
+  } else if (parsedUrl.pathname === '/addGuess') {
+    parseBody(request, response, gameHandler.addGuess);
+  }
 };
 
 // Handles any requests coming into the server and directs them to the correct place.
