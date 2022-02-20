@@ -126,7 +126,7 @@ const sendPut = async (pointsStreaksButton) => {
     });
 
     // Handled returned response and display on the front end.
-    handleResponse(response, false);
+    handleResponse(response, true);
 }
 
 const init = () => {
