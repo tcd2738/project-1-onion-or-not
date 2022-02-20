@@ -116,7 +116,7 @@ const updatePointsStreaks = (request, response) => {
   gameData.roundNum++;
 
   // Return 204 as no data needs returned.
-  return helperFunctions.respondJSON(request, response, 204);
+  return helperFunctions.respondJSONMeta(request, response, 204);
 };
 
 // Get the next article from our article collection and send it as JSON.

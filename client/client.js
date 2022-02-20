@@ -2,7 +2,6 @@
 const handleResponse = async (response, parseResponse) => {
     const content = document.querySelector('#content');
     
-    console.log(response);
     // Pick HTML message to display based on response status
     switch (response.status) {
         case 200:
@@ -116,8 +115,6 @@ const sendPut = async (pointsStreaksButton) => {
     const url = pointsStreaksButton.getAttribute('action');
     const method = pointsStreaksButton.getAttribute('method');
 
-    console.log("PUT request url:" + url);
-    console.log("PUT request method:" + method);
     let response = await fetch(url, {
         method,
         headers: {
@@ -126,7 +123,7 @@ const sendPut = async (pointsStreaksButton) => {
     });
 
     // Handled returned response and display on the front end.
-    handleResponse(response, true);
+    handleResponse(response, false);
 }
 
 const init = () => {
