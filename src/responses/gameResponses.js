@@ -102,6 +102,7 @@ const addGuess = (request, response, body) => {
 const updatePointsStreaks = (request, response) => {
   Object.keys(gameData.users).forEach((u) => {
     // If the user's guess is correct, do this.
+    console.log("checking user:" + u);
     if (gameData.users[u].guess === gameData.currentArticle.isOnion) {
       gameData.users[u].streak++;
       gameData.users[u].points += gameData.users[u].streak;
@@ -112,6 +113,7 @@ const updatePointsStreaks = (request, response) => {
     }
   });
 
+  console.log("iterating round and returning response");
   // Always iterate round number.
   gameData.roundNum++;
 
