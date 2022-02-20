@@ -7,6 +7,7 @@ const query = require('querystring');
 const htmlHandler = require('./responses/htmlResponses.js');
 const jsonHandler = require('./responses/jsonResponses.js');
 const gameHandler = require('./responses/gameResponses.js');
+const { parse } = require('path');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
@@ -73,11 +74,14 @@ const onRequest = (request, response) => {
   const parsedUrl = url.parse(request.url);
 
   console.dir(request.method);
+  console.log(request.method);
   console.dir(parsedUrl);
+  console.log(parsedUrl);
 
   if (request.method === 'POST') {
     handlePost(request, response, parsedUrl);
   } else if (urlStruct[request.method] && urlStruct[request.method][parsedUrl.pathname]) {
+    console.log(urlStruct[request.method][parsedUrl.pathname]);
     urlStruct[request.method][parsedUrl.pathname](request, response);
   } else {
     urlStruct.GET.notFound(request, response);
