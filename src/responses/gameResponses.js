@@ -134,17 +134,33 @@ const getNextArticle = (request, response) => {
 };
 
 // Get the next article from our article collection.
-const getNextArticleMeta = (request, response) => {
-  // Randomly select article.
-  const currentArticleNum = helperFunctions.getRandomNum(articles.length);
+const getNextArticleMeta = (req, res) => helperFunctions.respondJSONMeta(req, res, 200);
 
-  // Apply randomly-selected article to game data object but don't send as JSON.
-  gameData.currentArticle = articles[currentArticleNum];
-  articles.splice(currentArticleNum, 1);
+const getUserData = (request, response, params) => {
+  // Create JSON response that will be edited later.
+  const responseJSON = {};
 
-  // Return a 200.
-  return helperFunctions.respondJSONMeta(request, response, 200);
+  if (params.name) {
+    let userData = null;
+    Object.keys(gameData.users).forEach((u) => {
+      userData = gameData.users[u];
+    });
+
+    if (userData != null) {
+      return helperFunctions.respondJSON(request, response, 200, userData);
+    }
+
+    responseJSON.id = 'nameDoesNotExist';
+    responseJSON.message = 'That name does not exist.';
+    return helperFunctions.respondJSON(request, response, 400, responseJSON);
+  }
+
+  responseJSON.id = 'noNameGiven';
+  responseJSON.message = 'A \'name\' parameter has not been supplied.';
+  return helperFunctions.respondJSON(request, response, 400, responseJSON);
 };
+
+const getUserDataMeta = (req, res) => helperFunctions.respondJSONMeta(req, res, 200);
 
 module.exports = {
   getGameData,
@@ -155,4 +171,6 @@ module.exports = {
   getNextArticle,
   getNextArticleMeta,
   updatePointsStreaks,
+  getUserData,
+  getUserDataMeta,
 };

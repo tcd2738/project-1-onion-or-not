@@ -17,6 +17,7 @@ const urlStruct = {
     '/bundle.js': htmlHandler.getBundle,
     '/getGameData': gameHandler.getGameData,
     '/getNextArticle': gameHandler.getNextArticle,
+    '/getUserData': gameHandler.getUserData,
     notFound: jsonHandler.notFound,
   },
   PUT: {
@@ -25,6 +26,8 @@ const urlStruct = {
   HEAD: {
     '/getGameData': gameHandler.getGameDataMeta,
     '/getNextArticle': gameHandler.getNextArticleMeta,
+    '/getUserData': gameHandler.getUserDataMeta,
+    notFound: jsonHandler.notFoundMeta,
   },
   // POST requests not included in URL struct due to different process
 };
@@ -71,6 +74,7 @@ const handlePost = (request, response, parsedUrl) => {
 // Handles any requests coming into the server and directs them to the correct place.
 const onRequest = (request, response) => {
   const parsedUrl = url.parse(request.url);
+  const params = query.parse(parsedUrl.query);
 
   console.dir(parsedUrl);
   console.log(parsedUrl);
@@ -78,7 +82,7 @@ const onRequest = (request, response) => {
   if (request.method === 'POST') {
     handlePost(request, response, parsedUrl);
   } else if (urlStruct[request.method] && urlStruct[request.method][parsedUrl.pathname]) {
-    urlStruct[request.method][parsedUrl.pathname](request, response);
+    urlStruct[request.method][parsedUrl.pathname](request, response, params);
   } else {
     urlStruct.GET.notFound(request, response);
   }
