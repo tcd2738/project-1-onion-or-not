@@ -94,6 +94,30 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get User Data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/getUserData?name=Tommy",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"getUserData"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Tommy"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
