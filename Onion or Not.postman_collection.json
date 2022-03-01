@@ -60,24 +60,6 @@
 					"response": []
 				},
 				{
-					"name": "Get Next Article",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:3000/getNextArticle",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"getNextArticle"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Get Game Data",
 					"request": {
 						"method": "GET",
@@ -90,30 +72,6 @@
 							"port": "3000",
 							"path": [
 								"getGameData"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get User Data",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:3000/getUserData?name=Tommy",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"getUserData"
-							],
-							"query": [
-								{
-									"key": "name",
-									"value": "Tommy"
-								}
 							]
 						}
 					},
@@ -141,24 +99,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "Get Next Article (HEAD)",
-					"request": {
-						"method": "HEAD",
-						"header": [],
-						"url": {
-							"raw": "localhost:3000/getNextArticle",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"getNextArticle"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -176,6 +116,11 @@
 								{
 									"key": "name",
 									"value": "Tommy",
+									"type": "text"
+								},
+								{
+									"key": "roomID",
+									"value": "",
 									"type": "text"
 								}
 							]
@@ -204,6 +149,11 @@
 								{
 									"key": "name",
 									"value": "Tommy",
+									"type": "text"
+								},
+								{
+									"key": "roomID",
+									"value": "bc8ed71e-6b14-4478-a768-b511bc2c9847",
 									"type": "text"
 								}
 							]
@@ -242,10 +192,15 @@
 								},
 								{
 									"key": "isOnion",
-									"value": "true",
+									"value": "yes",
 									"description": "not valid",
 									"type": "text",
 									"disabled": true
+								},
+								{
+									"key": "roomID",
+									"value": "",
+									"type": "text"
 								}
 							]
 						},
@@ -257,6 +212,59 @@
 							"port": "3000",
 							"path": [
 								"addGuess"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Room",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/createRoom",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"createRoom"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Display Next Article",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "roomID",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/displayNextArticle",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"displayNextArticle"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -273,19 +281,31 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/updatePointsStreaks",
+							"raw": "localhost:3000/updatePointsStreaks?roomID=",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"updatePointsStreaks"
+							],
+							"query": [
+								{
+									"key": "roomID",
+									"value": ""
+								}
 							]
 						}
 					},
 					"response": []
 				}
 			]
+		}
+	],
+	"variable": [
+		{
+			"key": "roomID",
+			"value": "70b279db-ed05-4174-a5ed-ba6b54162396"
 		}
 	]
 }

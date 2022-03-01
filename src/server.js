@@ -16,8 +16,6 @@ const urlStruct = {
     '/style.css': htmlHandler.getCSS,
     '/bundle.js': htmlHandler.getBundle,
     '/getGameData': gameHandler.getGameData,
-    '/getNextArticle': gameHandler.getNextArticle,
-    '/getUserData': gameHandler.getUserData,
     notFound: jsonHandler.notFound,
   },
   PUT: {
@@ -25,8 +23,6 @@ const urlStruct = {
   },
   HEAD: {
     '/getGameData': gameHandler.getGameDataMeta,
-    '/getNextArticle': gameHandler.getNextArticleMeta,
-    '/getUserData': gameHandler.getUserDataMeta,
     notFound: jsonHandler.notFoundMeta,
   },
   // POST requests not included in URL struct due to different process
@@ -62,7 +58,11 @@ const parseBody = (request, response, handler) => {
 
 // Handles and directs POST requests.
 const handlePost = (request, response, parsedUrl) => {
-  if (parsedUrl.pathname === '/addUser') {
+  if (parsedUrl.pathname === '/createRoom') {
+    parseBody(request, response, gameHandler.createRoom);
+  } else if (parsedUrl.pathname === '/displayNextArticle') {
+    parseBody(request, response, gameHandler.displayNextArticle);
+  } else if (parsedUrl.pathname === '/addUser') {
     parseBody(request, response, gameHandler.addUser);
   } else if (parsedUrl.pathname === '/removeUser') {
     parseBody(request, response, gameHandler.removeUser);

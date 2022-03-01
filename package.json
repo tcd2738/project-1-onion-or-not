@@ -9,7 +9,7 @@
     "pretest": "eslint ./src --fix",
     "test": "echo \"Tests complete\"",
     "heroku-postbuild": "webpack --config heroku.config.js",
-    "postbuild": "webpack"
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "got": "^11.8.1",
+    "uuid": "^8.3.2",
     "webpack": "^5.69.0",
     "webpack-cli": "^4.9.2"
   }

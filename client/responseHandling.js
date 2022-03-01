@@ -1,3 +1,5 @@
+const playerCreator = require("./playerCreator.js");
+
 // Handle responses on the front end.
 const handleResponse = async (response, parseResponse) => {
     const content = document.querySelector('#content');
@@ -59,15 +61,16 @@ const requestUpdate = async (getForm) => {
 };
 
 // Called when front-end UI makes a user-related POST request.
-const userPost = async (nameForm) => {
+const userPostAdd = async (addUserForm) => {
     //Grab the request info.
-    const url = nameForm.querySelector('#userPostUrlField').value;
-    const method = nameForm.getAttribute('method');
+    const url = addUserForm.action;
+    const method = addUserForm.method;
     
     // Grab the form info.
-    const nameField = nameForm.querySelector('#nameField');
+    const nameField = addUserForm.querySelector('#nameField');
+    const nfValue = nameField.value;
     // Build your data string.
-    const formData = `name=${nameField.value}`;
+    const formData = `name=${nfValue}`;
 
     // Make and wait for your fetch response.
     let response = await fetch(url, {
@@ -78,22 +81,99 @@ const userPost = async (nameForm) => {
         },
         body: formData,
     });
+
+    // Change UI if player's name is accepted.
+    if (response.status == 201) {
+        createPlayer(nfValue);
+    }
+
+    // Handled returned response and display on the front end.
+    handleResponse(response, method !== 'head');
+};
+
+// Change UI to reflect new player.
+const createPlayer = (nfValue) => {
+    // Reflect the new player within the UI.
+    const currentUsers = document.getElementById("currentUsers");
+    currentUsers.innerHTML += playerCreator.createPlayerHTML(nfValue);
+
+    // Set up the form's created for the new player.
+    const removeUserButton = document.getElementById('remove' + nfValue + 'Button');
+    const guessForm = document.getElementById(nfValue + 'GuessForm');
+
+    const removeUser = () => {
+        userPostRemove(removeUserButton, nfValue);
+        return false;
+    }
+    const addGuess = (e) => {
+        e.preventDefault();
+        guessPost(guessForm, nfValue);
+        return false;
+    }
+
+    removeUserButton.addEventListener('click', removeUser);
+    guessForm.addEventListener('submit', addGuess);
+
+    // Add data to the new UI added for the player.
+    const playerNameHolder = document.getElementById(nfValue + 'Name');
+    playerNameHolder.innerHTML = nfValue;
+
+    const playerPoints = document.getElementById(nfValue + "Points");
+    playerPoints.innerHTML = 0;
+    const playerStreak = document.getElementById(nfValue + "Streak");
+    playerStreak.innerHTML = 0;
+
+    const hiddenElements = document.getElementsByClassName("hide");
+    for(e of hiddenElements) {
+        e.classList.remove("hide");
+    };
+}
+
+// Called when front-end UI makes a user-related POST request.
+const userPostRemove = async (removeUserButton, nfValue) => {
+    //Grab the request info.
+    const url = removeUserButton.getAttribute('action');
+    const method = removeUserButton.getAttribute('method');
+    
+    // Build your data string.
+    const formData = `name=${nfValue}`;
+
+    // Make and wait for your fetch response.
+    let response = await fetch(url, {
+        method,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json',
+        },
+        body: formData,
+    });
+
+    if (response.status == 202) {
+        const user = document.getElementById(nfValue);
+        user.innerHTML = "";
+    }
 
     // Handled returned response and display on the front end.
     handleResponse(response, method !== 'head');
 };
 
 // Called when front-end UI makes a guess-related POST request.
-const guessPost = async (guessForm) => {
+const guessPost = async (guessForm, nfValue) => {
     //Grab the request info.
     const url = guessForm.getAttribute('action');
     const method = guessForm.getAttribute('method');
     
     // Grab the form info.
-    const nameField = guessForm.querySelector('#nameField');
-    const guessField = guessForm.querySelector('#guessField');
+    const guessfield = document.getElementsByName('isItOnion' + nfValue);
+    let guess;
+    for (let g of guessfield)
+    {
+        if (g.checked) {
+            guess = g.value;
+        }
+    }
     // Build your data string.
-    const formData = `name=${nameField.value}&isOnion=${guessField.value}`;
+    const formData = `name=${nfValue}&isOnion=${guess}`;
 
     // Make and wait for your fetch response.
     let response = await fetch(url, {
@@ -105,9 +185,51 @@ const guessPost = async (guessForm) => {
         body: formData,
     });
 
+    if (response.status == 201) {
+        const userCurrentGuess = document.getElementById(nfValue + "Guess");
+        userCurrentGuess.innerHTML = guess;
+    }
+
     // Handled returned response and display on the front end.
     handleResponse(response, method !== 'head');
 };
+
+// Turn into one call on API end.
+const nextQuestion = async () => {
+
+    let pointsStreaksResponse = await fetch('/updatePointsStreaks', {
+        method: 'put',
+        headers: {
+            'Accept': 'application/json'
+        }
+    });
+
+    handleResponse(pointsStreaksResponse, false);
+
+    let gameDataResponse = await fetch('/getGameData', {
+        method: 'get',
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+
+    const gameDataJSON = await gameDataResponse.json();
+    const users = gameDataJSON.users;
+
+    let nextArticleResponse = await fetch('/getNextArticle', {
+        method: 'get',
+        headers: {
+            'Accept': 'application/json'
+        }
+    });
+
+    // Handle returned response and display on the front end.
+    handleResponse(nextArticleResponse, false);
+
+    const article = document.querySelector('#articleTitle');
+    const articleJSON = await nextArticleResponse.json();
+    article.innerHTML = articleJSON.title;
+}
 
 // Called when front-end UI makes a game-related PUT request.
 const sendPut = async (pointsStreaksButton) => {
@@ -126,9 +248,11 @@ const sendPut = async (pointsStreaksButton) => {
     handleResponse(response, false);
 }
 
-modules.export = {
+module.exports = {
     requestUpdate,
-    userPost,
+    userPostAdd,
+    userPostRemove,
     guessPost,
+    nextQuestion,
     sendPut
 }

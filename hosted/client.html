@@ -8,25 +8,21 @@
 <body>
   <section id="top">
     <h1>Onion or Not</h1>
-    <h2 id="articleTitle"></h2>
+    <h2 class="hide" id="articleTitle"></h2>
 
-    <form id="nameForm" action="/addUser" method="post">
-      <select id='userPostUrlField'>
-        <option value='/addUser'>/addUser</option>
-        <option value='/removeUser'>/removeUser</option>
-      </select>
+    <form id="addUserForm" action="/addUser" method="post">
+      <label>Add at least one player to begin!</label>
       <label for="name">Name: </label>
       <input id="nameField" type="text" name="name" />
       <input type="submit" value="Post User Methods" />
     </form>
 
-    <form id="guessForm" action="/addGuess" method="post">
-      <label for="name">Name: </label>
-      <input id="nameField" type="text" name="name" />
-      <label for="guess">Is it The Onion? ('y' or 'n'): </label>
-      <input id="guessField" type="text" name="guess" />
-      <input type="submit" value="Post Guess Method" />
-    </form>
+    <section id="currentUsers">
+    </section>
+
+    <section id="scoreboard">
+
+    </section>
 
     <form id="getForm" action="/getGameData" method="get">
       <select id='getUrlField'>
@@ -42,7 +38,7 @@
       <input type="submit" value="Get Methods" />
     </form>
 
-    <button id="pointsStreaksUpdater" action="/updatePointsStreaks" method="put" type="button">Update Points and Streaks</button>
+    <button id="nextQuestion" type="button">Get Next Question</button>
   </section>
   <section id="content">
   </section>
