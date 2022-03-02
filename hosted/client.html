@@ -8,39 +8,32 @@
 <body>
   <section id="top">
     <h1>Onion or Not</h1>
+    <div id="roundNumHolder">
+      <h3>Round:</h3>
+      <h3 id="roundNum"> 0 </h3>
+    </div>
     <h2 class="hide" id="articleTitle"></h2>
 
+    <h3 id="winnerHolder"></h3>
+
+    <p id="instructions">
+      Add as many players as you'd like, and then play through ten rounds of weird headlines.
+      The player with the most points at the end wins!
+    </p>
+
     <form id="addUserForm" action="/addUser" method="post">
-      <label>Add at least one player to begin!</label>
       <label for="name">Name: </label>
       <input id="nameField" type="text" name="name" />
-      <input type="submit" value="Post User Methods" />
+      <input type="submit" value="Add Player"/>
     </form>
-
-    <section id="currentUsers">
-    </section>
-
-    <section id="scoreboard">
-
-    </section>
-
-    <form id="getForm" action="/getGameData" method="get">
-      <select id='getUrlField'>
-        <option value='/getGameData'>/getGameData</option>
-        <option value='/getNextArticle'>/getNextArticle</option>
-        <option value='/notReal'>/notReal</option>
-      </select>
-
-      <select id="methodSelect">
-        <option value="get">GET</option>
-        <option value="head">HEAD</option>
-      </select>
-      <input type="submit" value="Get Methods" />
-    </form>
-
-    <button id="nextQuestion" type="button">Get Next Question</button>
+    
+    <button id="startButton" type="button">Begin!</button>
   </section>
   <section id="content">
+    <section id="currentUsers"></section>
+
+    <button id="nextQuestion" class="hide" type="button">Get Next Question</button>
   </section>
+  <section id="responseHandler"></section>
 </body>
 </html>

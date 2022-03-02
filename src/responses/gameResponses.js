@@ -21,7 +21,7 @@ const createRoom = (req, res) => {
   games.rooms[roomID] = {
     "users": {},
     "currentArticle": {},
-    "roundNum": 0,
+    "roundNum": 1,
     "articles": {}
   };
   games.rooms[roomID].articles = articles;

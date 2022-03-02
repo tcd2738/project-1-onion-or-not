@@ -1,3 +1,5 @@
+const responseHandling = require('./responseHandling.js');
+
 // HTML that is generated when a player is added to the UI.
 const createPlayerHTML = (id) => {
     return `
@@ -7,9 +9,9 @@ const createPlayerHTML = (id) => {
         <p id="${id}Guess"></p>
         <form id="${id}GuessForm" action="/addGuess" method="post">
             <label for="guess">Is it The Onion? ('y' or 'n'): </label>
-            <input type="radio" id="onionY" name="isItOnion${id}" value="y">
+            <input type="radio" id="onionY${id}" name="isItOnion${id}" value="y">
             <label for="onionY">yes</label><br>
-            <input type="radio" id="onionN" name="isItOnion${id}" value="n">
+            <input type="radio" id="onionN${id}" name="isItOnion${id}" value="n">
             <label for="onionN">no</label><br>
             <input type="submit" value="Post Guess Method" />
         </form>
@@ -44,16 +46,17 @@ const userPostRemove = async (nfValue, roomID) => {
     }
 
     // Handled returned response and display on the front end.
-    handleResponse(response, false);
+    responseHandling.handleResponse(response, true);
 };
 
 // Called when front-end UI makes a guess-related POST request.
 const guessPost = async (nfValue, roomID) => {
     
     // Grab the form info.
-    const guessfield = document.getElementsByName('isItOnion' + nfValue);
+    const guessField = document.getElementsByName('isItOnion' + nfValue);
+    console.log(guessField);
     let guess;
-    for (let g of guessfield)
+    for (let g of guessField)
     {
         if (g.checked) {
             guess = g.value;
@@ -61,6 +64,7 @@ const guessPost = async (nfValue, roomID) => {
     }
     // Build your data string.
     const formData = `name=${nfValue}&isOnion=${guess}&roomID=${roomID}`;
+    console.log(formData);
 
     // Make and wait for your fetch response.
     let response = await fetch('/addGuess', {
@@ -78,7 +82,7 @@ const guessPost = async (nfValue, roomID) => {
     }
 
     // Handled returned response and display on the front end.
-    handleResponse(response, false);
+    responseHandling.handleResponse(response, true);
 };
 
 // Change UI to reflect new player.
@@ -113,8 +117,8 @@ export const createPlayer = (nfValue, roomID) => {
     const playerStreak = document.getElementById(nfValue + "Streak");
     playerStreak.innerHTML = 0;
 
-    const hiddenElements = document.getElementsByClassName("hide");
-    for(e of hiddenElements) {
-        e.classList.remove("hide");
-    };
+    // const hiddenElements = document.getElementsByClassName("hide");
+    // for(const e of hiddenElements) {
+    //     e.classList.remove("hide");
+    // };
 }

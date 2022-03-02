@@ -18,14 +18,11 @@ const urlStruct = {
     '/getGameData': gameHandler.getGameData,
     notFound: jsonHandler.notFound,
   },
-  PUT: {
-    '/updatePointsStreaks': gameHandler.updatePointsStreaks,
-  },
   HEAD: {
     '/getGameData': gameHandler.getGameDataMeta,
     notFound: jsonHandler.notFoundMeta,
   },
-  // POST requests not included in URL struct due to different process
+  // PUT and POST requests not included in URL struct due to different process
 };
 
 // Parse the body of the POST requests.
@@ -62,6 +59,8 @@ const handlePost = (request, response, parsedUrl) => {
     parseBody(request, response, gameHandler.createRoom);
   } else if (parsedUrl.pathname === '/displayNextArticle') {
     parseBody(request, response, gameHandler.displayNextArticle);
+  } else if (parsedUrl.pathname === '/updatePointsStreaks') {
+    parseBody(request, response, gameHandler.updatePointsStreaks);
   } else if (parsedUrl.pathname === '/addUser') {
     parseBody(request, response, gameHandler.addUser);
   } else if (parsedUrl.pathname === '/removeUser') {
@@ -79,7 +78,7 @@ const onRequest = (request, response) => {
   console.dir(parsedUrl);
   console.log(parsedUrl);
 
-  if (request.method === 'POST') {
+  if (request.method === 'POST' || request.method === 'PUT') {
     handlePost(request, response, parsedUrl);
   } else if (urlStruct[request.method] && urlStruct[request.method][parsedUrl.pathname]) {
     urlStruct[request.method][parsedUrl.pathname](request, response, params);

@@ -1,9 +1,30 @@
 const responseHandlers = require('./responseHandling.js');
+const gameFunctions = require('./gameFunctions.js');
 
 let roomID;
 
-const createGame = async () => {
+// Handles the structural changes required on the HTML page once the game begins.
+beginGame = () => {
+    const instructions = document.getElementById('instructions');
+    const userForm = document.getElementById('addUserForm');
+    const startButton = document.getElementById('startButton');
 
+    instructions.classList.add('hide');
+    userForm.classList.add('hide');
+    startButton.classList.add('hide');
+
+    const article = document.getElementById('articleTitle');
+    const nextQuestion = document.getElementById('nextQuestion');
+
+    nextQuestion.classList.remove('hide');
+    article.classList.remove('hide');
+
+    const round = document.getElementById('roundNum');
+    round.innerHTML = 1;
+}
+
+// Generate room ID for new game.
+const createGame = async () => {
     // Make and wait for your fetch response.
     let response = await fetch('/createRoom', {
         method: 'post',
@@ -22,53 +43,34 @@ const createGame = async () => {
     responseHandlers.handleResponse(response, false);
 }
 
-const updatePointsStreaks = async () => {
-    const playerPoints = document.querySelector('#playerPoints');
-    const playerStreaks = document.querySelector('#playerStreak');
-
-    // Grab the player info.
-    const playerNameHolder = document.querySelector('#playerName');
-
-    const pointsStreaksData = await fetch('/getUserData?name=' + playerNameHolder.innerHTML, {
-        method: 'get',
-        headers: {
-            'Accept': 'application/json'
-        }
-    });
-
-    const pointsStreaksJSON = await pointsStreaksData.json();
-    playerPoints.innerHTML = pointsStreaksJSON.points;
-    playerStreaks.innerHTML = pointsStreaksData.streak;
-}
-
 const init = async () => {
+
     // Create game and generate roomID for attempting anything else.
     await createGame();
-    responseHandlers.updateArticle(roomID);
-    
-    const getForm = document.getElementById('getForm');
+    gameFunctions.updateArticle(roomID);
+
+    const startGameButton = document.getElementById('startButton');
     const addUserForm = document.getElementById('addUserForm');
     const nextQuestionButton = document.getElementById('nextQuestion');
     
     // Tell the forms to do their needed actions without redirecting.
-    const getUsers = (e) => {
-        e.preventDefault();
-        responseHandlers.requestUpdate(getForm);
+    const startGame = (e) => {
+        beginGame();
         return false;
     }
     const addUser = (e) => {
         e.preventDefault();
-        responseHandlers.userPostAdd(addUserForm, roomID);
+        gameFunctions.userPostAdd(addUserForm, roomID);
         return false;
     }
     // No redirect as this is a button.
     const nextQuestionEvent = (e) => {
-        responseHandlers.nextQuestion();
+        gameFunctions.nextQuestion(roomID);
         return false;
     }
     
     // Attach functions to related document elements.
-    getForm.addEventListener('submit', getUsers);
+    startGameButton.addEventListener('click', startGame);
     addUserForm.addEventListener('submit', addUser);
     nextQuestionButton.addEventListener('click', nextQuestionEvent);
 };
