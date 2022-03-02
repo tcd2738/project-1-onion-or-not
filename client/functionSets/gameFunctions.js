@@ -63,11 +63,15 @@ const endGame = async (roomID) => {
 
     nextQuestion.classList.add('hide');
     article.classList.add('hide');
+
+    // Reveal the restart button.
+    const restartButton = document.getElementById('restartButton');
+    restartButton.classList.remove('hide');
 }
 
 // Called when a GET or HEAD request is made.
 const requestUpdate = async (url, method, returnData) => {
-
+    // Make and wait for your fetch response.
     let response = await fetch(url, {
         method,
         headers: {
@@ -141,8 +145,8 @@ const nextQuestion = async (roomID) => {
         playerPoints.innerHTML = gameData.users[u].points;
         playerStreak.innerHTML = gameData.users[u].streak;
 
-        const playerGuess = document.getElementById(u + "Guess");
-        playerGuess.innerHTML = '';
+        const userCurrentGuess = document.getElementById(u + "Guess");
+        userCurrentGuess.innerText = '';
     });
 
     // Update round number.

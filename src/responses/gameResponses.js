@@ -1,9 +1,9 @@
 // Grab helper functions.
+const uuid = require('uuid');
 const articleFunctions = require('../helperFunctions/articleFunctions.js');
 const helperFunctions = require('../helperFunctions/helperFunctions.js');
 
 // NPM modules needed.
-const uuid = require('uuid');
 
 // Objects stored in local memory for project #1.
 const articles = articleFunctions.createGameArticles();
@@ -19,10 +19,10 @@ const createRoom = (req, res) => {
   // Create UUID and use it as key for room.
   const roomID = uuid.v4();
   games.rooms[roomID] = {
-    "users": {},
-    "currentArticle": {},
-    "roundNum": 1,
-    "articles": {}
+    users: {},
+    currentArticle: {},
+    roundNum: 1,
+    articles: {},
   };
   games.rooms[roomID].articles = articles;
 
@@ -188,38 +188,38 @@ const updatePointsStreaks = (req, res, body) => {
 };
 
 // Function to reset gameData object for new game.
-  // Does not clear users.
+// Does not clear users.
 const resetRoom = (req, res, body) => {
-    // Create JSON response that will be edited later.
-    const responseJSON = {};
+  // Create JSON response that will be edited later.
+  const responseJSON = {};
 
-    // Make sure the 'name' field appears in the body. If not, send a 400.
-    if (!body.roomID) {
-      responseJSON.id = 'missingParams';
-      responseJSON.message = 'Room ID is required.';
-      return helperFunctions.respondJSON(req, res, 400, responseJSON);
-    }
-  
-    const currentRoom = games.rooms[body.roomID];
-    // If the room ID does not exist, send a 400.
-    if (!currentRoom) {
-      responseJSON.id = 'noRoomID';
-      responseJSON.message = 'That room ID does not exist.';
-      return helperFunctions.respondJSON(req, res, 400, responseJSON);
-    }
+  // Make sure the 'name' field appears in the body. If not, send a 400.
+  if (!body.roomID) {
+    responseJSON.id = 'missingParams';
+    responseJSON.message = 'Room ID is required.';
+    return helperFunctions.respondJSON(req, res, 400, responseJSON);
+  }
 
-    // Reset scores and streaks for all users.
-    Object.keys(currentRoom.users).forEach((u) => {
-      currentRoom.users[u].points = 0;
-      currentRoom.users[u].streak = 0;
-      currentRoom.users[u].guess = null;
-    });
+  const currentRoom = games.rooms[body.roomID];
+  // If the room ID does not exist, send a 400.
+  if (!currentRoom) {
+    responseJSON.id = 'noRoomID';
+    responseJSON.message = 'That room ID does not exist.';
+    return helperFunctions.respondJSON(req, res, 400, responseJSON);
+  }
 
-    // Reset round.
-    currentRoom.roundNum = 1;
+  // Reset scores and streaks for all users.
+  Object.keys(currentRoom.users).forEach((u) => {
+    currentRoom.users[u].points = 0;
+    currentRoom.users[u].streak = 0;
+    currentRoom.users[u].guess = null;
+  });
 
-    // Return 204 as no data needs returned.
-    return helperFunctions.respondJSONMeta(req, res, 204);
+  // Reset round.
+  currentRoom.roundNum = 1;
+
+  // Return 204 as no data needs returned.
+  return helperFunctions.respondJSONMeta(req, res, 204);
 };
 
 // Get the next article from our article collection and send it as JSON.
@@ -264,5 +264,5 @@ module.exports = {
   addGuess,
   displayNextArticle,
   updatePointsStreaks,
-  resetRoom
+  resetRoom,
 };
