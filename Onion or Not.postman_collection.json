@@ -120,7 +120,7 @@
 								},
 								{
 									"key": "roomID",
-									"value": "",
+									"value": "786cb508-60a4-4d69-b905-241ca011af68",
 									"type": "text"
 								}
 							]
@@ -199,7 +199,7 @@
 								},
 								{
 									"key": "roomID",
-									"value": "",
+									"value": "786cb508-60a4-4d69-b905-241ca011af68",
 									"type": "text"
 								}
 							]
@@ -245,7 +245,7 @@
 							"urlencoded": [
 								{
 									"key": "roomID",
-									"value": "",
+									"value": "786cb508-60a4-4d69-b905-241ca011af68",
 									"type": "text"
 								}
 							]
@@ -280,8 +280,18 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "roomID",
+									"value": "786cb508-60a4-4d69-b905-241ca011af68",
+									"type": "text"
+								}
+							]
+						},
 						"url": {
-							"raw": "localhost:3000/updatePointsStreaks?roomID=",
+							"raw": "localhost:3000/updatePointsStreaks",
 							"host": [
 								"localhost"
 							],
@@ -291,9 +301,38 @@
 							],
 							"query": [
 								{
-									"key": "roomID",
-									"value": ""
+									"key": "",
+									"value": "",
+									"disabled": true
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Room",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "roomID",
+									"value": "786cb508-60a4-4d69-b905-241ca011af68",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/resetRoom",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"resetRoom"
 							]
 						}
 					},

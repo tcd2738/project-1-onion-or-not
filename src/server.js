@@ -61,6 +61,8 @@ const handlePost = (request, response, parsedUrl) => {
     parseBody(request, response, gameHandler.displayNextArticle);
   } else if (parsedUrl.pathname === '/updatePointsStreaks') {
     parseBody(request, response, gameHandler.updatePointsStreaks);
+  } else if (parsedUrl.pathname === '/resetRoom') {
+    parseBody(request, response, gameHandler.resetRoom);
   } else if (parsedUrl.pathname === '/addUser') {
     parseBody(request, response, gameHandler.addUser);
   } else if (parsedUrl.pathname === '/removeUser') {
