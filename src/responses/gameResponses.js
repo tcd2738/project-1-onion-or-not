@@ -1,16 +1,15 @@
 // Grab helper functions.
+const uuid = require('uuid');
 const articleFunctions = require('../helperFunctions/articleFunctions.js');
 const helperFunctions = require('../helperFunctions/helperFunctions.js');
 
 // NPM modules needed.
-const uuid = require("uuid");
 
 // Objects stored in local memory for project #1.
 const articles = articleFunctions.createGameArticles();
 const games = {
-  rooms: {}
-}
-const roomData = require('../roomData.json');
+  rooms: {},
+};
 
 // Create a new game room using a UUID.
 const createRoom = (req, res) => {
@@ -19,14 +18,19 @@ const createRoom = (req, res) => {
 
   // Create UUID and use it as key for room.
   const roomID = uuid.v4();
-  games.rooms[roomID] = roomData;
+  games.rooms[roomID] = {
+    "users": {},
+    "currentArticle": {},
+    "roundNum": 0,
+    "articles": {}
+  };
   games.rooms[roomID].articles = articles;
 
   // Send the room ID as part of the response so that the client can access it.
   responseJSON.message = 'Created Successfully';
   responseJSON.roomID = roomID;
   return helperFunctions.respondJSON(req, res, 201, responseJSON);
-}
+};
 
 // Functions to grab and respond with game data.
 const getGameData = (req, res) => helperFunctions.respondJSON(req, res, 200, games);
@@ -185,23 +189,23 @@ const updatePointsStreaks = (request, response, body) => {
 
 // Get the next article from our article collection and send it as JSON.
 const displayNextArticle = (request, response, body) => {
-    // Create JSON response that will be edited later.
-    const responseJSON = {};
+  // Create JSON response that will be edited later.
+  const responseJSON = {};
 
-    // Make sure the 'roomID' field appears in the body. If not, send a 400.
-    if (!body.roomID) {
-      responseJSON.id = 'missingParams';
-      responseJSON.message = 'Room ID is required.';
-      return helperFunctions.respondJSON(request, response, 400, responseJSON);
-    }
-  
-    const currentRoom = games.rooms[body.roomID];
-    // If the room ID does not exist, send a 400.
-    if (!currentRoom) {
-      responseJSON.id = 'noRoomID';
-      responseJSON.message = 'That Room ID does not exist.';
-      return helperFunctions.respondJSON(request, response, 400, responseJSON);
-    }
+  // Make sure the 'roomID' field appears in the body. If not, send a 400.
+  if (!body.roomID) {
+    responseJSON.id = 'missingParams';
+    responseJSON.message = 'Room ID is required.';
+    return helperFunctions.respondJSON(request, response, 400, responseJSON);
+  }
+
+  const currentRoom = games.rooms[body.roomID];
+  // If the room ID does not exist, send a 400.
+  if (!currentRoom) {
+    responseJSON.id = 'noRoomID';
+    responseJSON.message = 'That Room ID does not exist.';
+    return helperFunctions.respondJSON(request, response, 400, responseJSON);
+  }
 
   // Randomly select article.
   const currentArticleNum = helperFunctions.getRandomNum(currentRoom.articles.length);
@@ -224,5 +228,5 @@ module.exports = {
   removeUser,
   addGuess,
   displayNextArticle,
-  updatePointsStreaks
+  updatePointsStreaks,
 };
