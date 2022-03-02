@@ -3,7 +3,6 @@ const responseHandling = require('./responseHandling.js');
 // HTML that is generated when a player is added to the UI.
 const createPlayerHTML = (id) => {
     return `
-    <div id="${id}">
         <p id="${id}Name"></p>
         <label>Current guess:</label>
         <p id="${id}Guess"></p>
@@ -20,7 +19,6 @@ const createPlayerHTML = (id) => {
         <label>Current Streak:</label>
         <p id="${id}Streak"></p>
         <button id="remove${id}Button" action="/removeUser" method="post" type="button">Stop playing?</button>
-    </div>
     `
 }
 
@@ -64,7 +62,6 @@ const guessPost = async (nfValue, roomID) => {
     }
     // Build your data string.
     const formData = `name=${nfValue}&isOnion=${guess}&roomID=${roomID}`;
-    console.log(formData);
 
     // Make and wait for your fetch response.
     let response = await fetch('/addGuess', {
@@ -88,8 +85,12 @@ const guessPost = async (nfValue, roomID) => {
 // Change UI to reflect new player.
 export const createPlayer = (nfValue, roomID) => {
     // Reflect the new player within the UI.
+    const newPlayer = document.createElement('div');
+    newPlayer.classList.add('player');
+    newPlayer.setAttribute('id', nfValue);
+    newPlayer.innerHTML = createPlayerHTML(nfValue);
     const currentUsers = document.getElementById("currentUsers");
-    currentUsers.innerHTML += createPlayerHTML(nfValue);
+    currentUsers.appendChild(newPlayer);
 
     // Set up the form's created for the new player.
     const removeUserButton = document.getElementById('remove' + nfValue + 'Button');

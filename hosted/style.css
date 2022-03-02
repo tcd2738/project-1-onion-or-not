@@ -12,11 +12,29 @@ html, body {
 
 #top h1 {
   font-size: 2em;
+  font-family: 'Playfair Display', serif;
+}
+
+#articleTitle {
+  font-family: 'Playfair Display', serif;
+}
+
+p {
+  font-family: 'Georgia', 'Times New Roman', Times, serif
 }
 
 #content {
   text-align: center;
   margin: 0 auto;
+}
+
+#currentUsers {
+  display: flex;
+  justify-content: center;
+}
+
+.player {
+  padding: 2rem;
 }
 
 #responseHandler {

@@ -67,6 +67,9 @@ const endGame = async (roomID) => {
     // Reveal the restart button.
     const restartButton = document.getElementById('restartButton');
     restartButton.classList.remove('hide');
+
+    const userForm = document.getElementById('addUserForm');
+    userForm.classList.remove('hide');
 }
 
 // Called when a GET or HEAD request is made.

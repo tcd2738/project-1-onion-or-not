@@ -89,6 +89,8 @@ const restartGame = async (roomID) => {
 
         const restartButton = document.getElementById('restartButton');
         restartButton.classList.add('hide');
+        const userForm = document.getElementById('addUserForm');
+        userForm.classList.add('hide');
     }
 
     // Handled returned response and display on the front end.
