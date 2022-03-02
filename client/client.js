@@ -1,17 +1,25 @@
 const responseHandlers = require('./responseHandling.js');
 
-const updateArticle = async () => {
-    const article = document.querySelector('#articleTitle');
+let roomID;
 
-    const articleData = await fetch('/getNextArticle', {
-        method: 'get',
+const createGame = async () => {
+
+    // Make and wait for your fetch response.
+    let response = await fetch('/createRoom', {
+        method: 'post',
         headers: {
             'Accept': 'application/json'
         }
     });
 
-    const articleJSON = await articleData.json();
-    article.innerHTML = articleJSON.title;
+    // Save the room ID if created.
+    if (response.status == 201) {
+        const roomCreationJSON = await response.json();
+        roomID = roomCreationJSON.roomID;
+    }
+
+    // Handled returned response and display on the front end.
+    responseHandlers.handleResponse(response, false);
 }
 
 const updatePointsStreaks = async () => {
@@ -33,7 +41,11 @@ const updatePointsStreaks = async () => {
     playerStreaks.innerHTML = pointsStreaksData.streak;
 }
 
-const init = () => {
+const init = async () => {
+    // Create game and generate roomID for attempting anything else.
+    await createGame();
+    responseHandlers.updateArticle(roomID);
+    
     const getForm = document.getElementById('getForm');
     const addUserForm = document.getElementById('addUserForm');
     const nextQuestionButton = document.getElementById('nextQuestion');
@@ -46,7 +58,7 @@ const init = () => {
     }
     const addUser = (e) => {
         e.preventDefault();
-        responseHandlers.userPostAdd(addUserForm);
+        responseHandlers.userPostAdd(addUserForm, roomID);
         return false;
     }
     // No redirect as this is a button.
@@ -59,8 +71,6 @@ const init = () => {
     getForm.addEventListener('submit', getUsers);
     addUserForm.addEventListener('submit', addUser);
     nextQuestionButton.addEventListener('click', nextQuestionEvent);
-
-    // updateArticle();
 };
 
 window.onload = init;
