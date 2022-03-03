@@ -37,6 +37,7 @@ const updateRound = (roundNum, roomID) => {
     }
 }
 
+// End the game, and make associated UI changes.
 const endGame = async (roomID) => {
     // Grab the gameData and search through the users for a winner.
     const gameDataJSON = await requestUpdate('/getGameData', 'get', true);

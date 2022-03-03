@@ -45,6 +45,7 @@ const handleResponse = async (response, parseResponse) => {
     }
 }
 
+// Changing of debug value from client.
 const enableDebug = () => {
     debugValue = true;
 }

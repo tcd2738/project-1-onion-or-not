@@ -7,10 +7,14 @@ let roomID;
 beginGame = () => {
     const currentUsers = document.getElementById('currentUsers').childElementCount;
     const playerMessage = document.getElementById('playerErrorMessage');
+    
+    // Do not start if there aren't any players.
     if (currentUsers == 0) {
         playerMessage.classList.remove('hide');
     } else {
         playerMessage.classList.add('hide');
+
+        // Hide startup elements.
         const instructions = document.getElementById('instructions');
         const userForm = document.getElementById('addUserForm');
         const startButton = document.getElementById('startButton');
@@ -19,6 +23,7 @@ beginGame = () => {
         userForm.classList.add('hide');
         startButton.classList.add('hide');
 
+        // Show game elements.
         const article = document.getElementById('articleTitle');
         const nextQuestion = document.getElementById('nextQuestion');
 

@@ -128,9 +128,4 @@ export const createPlayer = (nfValue, roomID) => {
     playerPoints.innerHTML = 0;
     const playerStreak = document.getElementById(nfValue + "Streak");
     playerStreak.innerHTML = 0;
-
-    // const hiddenElements = document.getElementsByClassName("hide");
-    // for(const e of hiddenElements) {
-    //     e.classList.remove("hide");
-    // };
 }
