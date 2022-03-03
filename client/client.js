@@ -140,6 +140,7 @@ const init = async () => {
     }
     const debug = (e) => {
         responseHandlers.enableDebug();
+        debugButton.classList.add('hide');
         return false;
     }
     
