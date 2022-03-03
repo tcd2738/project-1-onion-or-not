@@ -31,7 +31,7 @@ const updateArticle = async (roomID) => {
 const updateRound = (roundNum, roomID) => {
     if (roundNum != 11) {
         const round = document.getElementById('roundNum');
-        round.innerHTML = roundNum;
+        round.innerHTML = "Round: " + roundNum;
     } else {
         endGame(roomID);
     }
@@ -134,7 +134,7 @@ const nextQuestion = async (roomID) => {
         body: formData
     });
 
-    responseHandling.handleResponse(pointsStreaksResponse, true);
+    responseHandling.handleResponse(pointsStreaksResponse, false);
 
     // pull out the new values for the players and apply them to the UI.
         // Also, reset guesses.
@@ -149,7 +149,7 @@ const nextQuestion = async (roomID) => {
         playerStreak.innerHTML = gameData.users[u].streak;
 
         const userCurrentGuess = document.getElementById(u + "Guess");
-        userCurrentGuess.innerText = '';
+        userCurrentGuess.innerText = 'N/A';
     });
 
     // Update round number.

@@ -5,24 +5,29 @@ let roomID;
 
 // Handles the structural changes required on the HTML page once the game begins.
 beginGame = () => {
-    const instructions = document.getElementById('instructions');
-    const userForm = document.getElementById('addUserForm');
-    const startButton = document.getElementById('startButton');
+    const currentUsers = document.getElementById('currentUsers').childElementCount;
+    const playerMessage = document.getElementById('playerErrorMessage');
+    if (currentUsers == 0) {
+        playerMessage.classList.remove('hide');
+    } else {
+        playerMessage.classList.add('hide');
+        const instructions = document.getElementById('instructions');
+        const userForm = document.getElementById('addUserForm');
+        const startButton = document.getElementById('startButton');
 
-    instructions.classList.add('hide');
-    userForm.classList.add('hide');
-    startButton.classList.add('hide');
+        instructions.classList.add('hide');
+        userForm.classList.add('hide');
+        startButton.classList.add('hide');
 
-    const article = document.getElementById('articleTitle');
-    const nextQuestion = document.getElementById('nextQuestion');
-    const roundNumHolder = document.getElementById('roundNumHolder');
+        const article = document.getElementById('articleTitle');
+        const nextQuestion = document.getElementById('nextQuestion');
 
-    nextQuestion.classList.remove('hide');
-    article.classList.remove('hide');
-    roundNumHolder.classList.remove('hide');
+        nextQuestion.classList.remove('hide');
+        article.classList.remove('hide');
 
-    const round = document.getElementById('roundNum');
-    round.innerHTML = 1;
+        const round = document.getElementById('roundNum');
+        round.innerHTML = "Round: 1";
+    }
 }
 
 // Generate room ID for new game.
@@ -94,7 +99,7 @@ const restartGame = async (roomID) => {
     }
 
     // Handled returned response and display on the front end.
-    responseHandlers.handleResponse(response, true);
+    responseHandlers.handleResponse(response, false);
 }
 
 const init = async () => {
@@ -107,6 +112,7 @@ const init = async () => {
     const addUserForm = document.getElementById('addUserForm');
     const nextQuestionButton = document.getElementById('nextQuestion');
     const restartButton = document.getElementById('restartButton');
+    const debugButton = document.getElementById('debugButton');
     
     // Tell the forms to do their needed actions without redirecting.
     const startGame = (e) => {
@@ -127,12 +133,17 @@ const init = async () => {
         restartGame(roomID);
         return false;
     }
+    const debug = (e) => {
+        responseHandlers.enableDebug();
+        return false;
+    }
     
     // Attach functions to related document elements.
     startGameButton.addEventListener('click', startGame);
     addUserForm.addEventListener('submit', addUser);
     nextQuestionButton.addEventListener('click', nextQuestionEvent);
     restartButton.addEventListener('click', restart);
+    debugButton.addEventListener('click', debug);
 };
 
 window.onload = init;
