@@ -36,7 +36,6 @@ button:active, input[type=submit]:active {
 
 #top {
   text-align: center;
-  height: 3em;
 }
 
 #top h1 {
@@ -62,7 +61,7 @@ h3 {
 
 .topInfo {
   width: 80%;
-  height: auto;
+  height: 3em;
   
   padding-bottom: .75em;
 }
